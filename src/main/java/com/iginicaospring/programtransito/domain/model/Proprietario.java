@@ -1,6 +1,6 @@
 package com.iginicaospring.programtransito.domain.model;
 
-public class Proprietarios {
+public class Proprietario {
 
     private Long id;
     private String nome;
