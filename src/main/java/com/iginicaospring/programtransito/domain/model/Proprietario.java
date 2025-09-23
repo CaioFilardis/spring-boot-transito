@@ -20,8 +20,6 @@ public class Proprietario {
 
     private String nome;
     private String email;
-
-    @Column(name = "celular") // anotação que mapea exatamente a coluna deseja e renomea
     private String telefone;
 
     public Long getId() {
