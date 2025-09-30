@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,18 +36,16 @@ public class ProprietarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // método para adiconar novos proprietarios
-    @PostMapping // manda, adicionar novos dados
-    @ResponseStatus(HttpStatus.CREATED) // enumeração spring que retorna status de "criado"
-    public Proprietario adicionar(@RequestBody Proprietario proprietario) {// RequestBody, vincula os parâmetros no corpo da requisição
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Proprietario adicionar(@RequestBody Proprietario proprietario) {
         return proprietarioRepository.save(proprietario);
     }
 
-    // método para atualizar os dados de um proprietario
-    @PutMapping("/{proprietarioId}") // variavel de caminho
+    @PutMapping("/{proprietarioId}")
     public ResponseEntity<Proprietario> atualizar(@PathVariable Long proprietarioId,
                                                   @RequestBody Proprietario proprietario) {
-        if (!proprietarioRepository.existsById(proprietarioId)) { // faz um select na tabela para verificar se existe
+        if (!proprietarioRepository.existsById(proprietarioId)) {
             return ResponseEntity.notFound().build();
         }
 
@@ -54,5 +53,16 @@ public class ProprietarioController {
         Proprietario proprietarioAtualizado = proprietarioRepository.save(proprietario);
 
         return ResponseEntity.ok(proprietarioAtualizado);
+    }
+
+    // método para remover conteúdo de uma tabela
+    @DeleteMapping("/{proprietarioId}")
+    public ResponseEntity<Void> remover(@PathVariable Long proprietarioId) {
+        if (!proprietarioRepository.existsById(proprietarioId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        proprietarioRepository.deleteById(proprietarioId);
+        return ResponseEntity.noContent().build();
     }
 }
