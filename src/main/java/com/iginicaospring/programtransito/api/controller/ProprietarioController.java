@@ -5,6 +5,7 @@ import com.iginicaospring.programtransito.domain.repository.ProprietarioReposito
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class ProprietarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Proprietario adicionar(@RequestBody Proprietario proprietario) {
+    public Proprietario adicionar(@Valid @RequestBody Proprietario proprietario) { // @Valid, diz que precisa ser validado
         return proprietarioRepository.save(proprietario);
     }
 
