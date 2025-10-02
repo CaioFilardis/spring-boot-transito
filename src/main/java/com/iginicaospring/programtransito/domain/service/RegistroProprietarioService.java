@@ -1,5 +1,6 @@
 package com.iginicaospring.programtransito.domain.service;
 
+import com.iginicaospring.programtransito.domain.exception.NegocioException;
 import com.iginicaospring.programtransito.domain.model.Proprietario;
 import com.iginicaospring.programtransito.domain.repository.ProprietarioRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,16 @@ public class RegistroProprietarioService {
 
     @Transactional // declarando que o método deve ser executado dentro da transação, deve ser do springboot
     public Proprietario salvar(Proprietario proprietario) {
+        // adicionar regras de negócio - não permitir duplicidade
+        boolean emailEmUso = proprietarioRepository.findByEmail(proprietario.getEmail())
+                .filter(p -> !p.equals(proprietario)) // aplica um filtro
+                .isPresent(); // diz se tem alguma coisa dentro do Optional
+
+
+        if (emailEmUso) {
+            throw new NegocioException("Já existe um proprietario cadastrado");
+        }
+
         return proprietarioRepository.save(proprietario);
     }
 
