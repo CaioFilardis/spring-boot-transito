@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Veiculo {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // --> Alteração, delegando ao banco de dados, auto-increment
     @EqualsAndHashCode.Include // comparando objetos via id
     private Long id;
 
