@@ -1,5 +1,6 @@
 package com.iginicaospring.programtransito.api.controller;
 
+import com.iginicaospring.programtransito.domain.exception.NegocioException;
 import com.iginicaospring.programtransito.domain.model.Veiculo;
 import com.iginicaospring.programtransito.domain.repository.VeiculoRepository;
 import com.iginicaospring.programtransito.domain.service.RegistroVeiculoService;
@@ -35,5 +36,11 @@ public class VeiculoController {
     @ResponseStatus(HttpStatus.CREATED)
     public Veiculo cadastrar(@RequestBody Veiculo veiculo){
         return registroVeiculoService.cadastrar(veiculo);
+    }
+
+    // faz a captura da exceção 400
+    @ExceptionHandler(NegocioException.class) // método para ser capaz de tratar exceção
+    public ResponseEntity<String> capturar(NegocioException e) {
+        return ResponseEntity.badRequest().body(e.getMessage()); // retorna um status 400, erro no consumidor e não servidor
     }
 }

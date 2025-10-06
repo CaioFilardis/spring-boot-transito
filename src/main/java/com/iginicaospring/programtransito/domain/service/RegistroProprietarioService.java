@@ -15,7 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service // semanticamente mais legível(recomendado)
 public class RegistroProprietarioService {
 
-    private final ProprietarioRepository proprietarioRepository; // injetar o repository proprietario
+    private final ProprietarioRepository proprietarioRepository;
+    private final RegistroProprietarioService registroProprietarioService;
+
+    public Proprietario buscar(Long proprietarioId) {
+        return proprietarioRepository.findById(proprietarioId)
+                .orElseThrow(() -> new NegocioException("Proprietario não encontrado"));
+    }
 
     @Transactional // declarando que o método deve ser executado dentro da transação, deve ser do springboot
     public Proprietario salvar(Proprietario proprietario) {
