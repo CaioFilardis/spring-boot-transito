@@ -4,32 +4,26 @@ import com.iginicaospring.programtransito.domain.exception.NegocioException;
 import com.iginicaospring.programtransito.domain.model.Proprietario;
 import com.iginicaospring.programtransito.domain.repository.ProprietarioRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-// classe que irá tratar do CRUD, a gestão dos registros.
-// @Component // cria uma instância disponível
-@AllArgsConstructor // gera um construtor
-@Service // semanticamente mais legível(recomendado)
+
+@AllArgsConstructor
+@Service
 public class RegistroProprietarioService {
 
     private final ProprietarioRepository proprietarioRepository;
-    private final RegistroProprietarioService registroProprietarioService;
 
     public Proprietario buscar(Long proprietarioId) {
         return proprietarioRepository.findById(proprietarioId)
                 .orElseThrow(() -> new NegocioException("Proprietario não encontrado"));
     }
 
-    @Transactional // declarando que o método deve ser executado dentro da transação, deve ser do springboot
+    @Transactional
     public Proprietario salvar(Proprietario proprietario) {
-        // adicionar regras de negócio - não permitir duplicidade
         boolean emailEmUso = proprietarioRepository.findByEmail(proprietario.getEmail())
-                .filter(p -> !p.equals(proprietario)) // aplica um filtro
-                .isPresent(); // diz se tem alguma coisa dentro do Optional
-
+                .filter(p -> !p.equals(proprietario))
+                .isPresent();
 
         if (emailEmUso) {
             throw new NegocioException("Já existe um proprietario cadastrado");
@@ -40,6 +34,6 @@ public class RegistroProprietarioService {
 
     @Transactional
     public void excluir(Long proprietarioId) {
-        proprietarioRepository.deleteById(proprietarioId); // exclui o proprietario pegando seu id
+        proprietarioRepository.deleteById(proprietarioId);
     }
 }

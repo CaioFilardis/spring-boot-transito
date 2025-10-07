@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor // gera o construtor em tempo de execução
-@RestController // diz que é um controlador
-@RequestMapping("/veiculos") // mapea esse controlador
+@AllArgsConstructor
+@RestController
+@RequestMapping("/veiculos")
 public class VeiculoController {
 
     private final VeiculoRepository veiculoRepository;
@@ -24,23 +24,21 @@ public class VeiculoController {
         return veiculoRepository.findAll();
     }
 
-    @GetMapping("/{veiculoId}") // tornar a requisção uma variavel
+    @GetMapping("/{veiculoId}")
     public ResponseEntity<Veiculo> buscar(@PathVariable Long veiculoId){
         return veiculoRepository.findById(veiculoId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // método para fazer o cadastro
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Veiculo cadastrar(@RequestBody Veiculo veiculo){
         return registroVeiculoService.cadastrar(veiculo);
     }
 
-    // faz a captura da exceção 400
     @ExceptionHandler(NegocioException.class) // método para ser capaz de tratar exceção
     public ResponseEntity<String> capturar(NegocioException e) {
-        return ResponseEntity.badRequest().body(e.getMessage()); // retorna um status 400, erro no consumidor e não servidor
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
