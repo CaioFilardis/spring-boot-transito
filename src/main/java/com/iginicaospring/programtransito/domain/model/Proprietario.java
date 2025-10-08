@@ -1,5 +1,6 @@
 package com.iginicaospring.programtransito.domain.model;
 
+import com.iginicaospring.programtransito.domain.validation.ValidationGroups;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,14 +18,14 @@ import lombok.Setter;
 
 public class Proprietario {
 
-    @EqualsAndHashCode.Include // anotação que inclui a propriedade "Id"
-    @Id // Id = anotação que define a propriedade de identificação(primary key)
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // anotação que define a estratégia nativa do banco de dados(ele mesmo faz)
+    @NotNull(groups = ValidationGroups.ProprietarioId.class)
+    @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank // validação dizendo que o nome não pode ser branco
-    // @NotNull // validação dizendo que o valor da propriedade não pode ser nulo
-    @Size(max = 60) // define um limite de caracteres
+    @NotBlank
+    @Size(max = 60)
     private String nome;
 
     @NotBlank
