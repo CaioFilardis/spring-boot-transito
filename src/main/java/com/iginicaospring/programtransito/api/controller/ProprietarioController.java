@@ -36,7 +36,6 @@ public class ProprietarioController {
     @ResponseStatus(HttpStatus.CREATED)
     public Proprietario adicionar(@Valid @RequestBody Proprietario proprietario) { // @Valid, diz que precisa ser validado
         return registroProprietarioService.salvar(proprietario);
-        //return proprietarioRepository.save(proprietario);
     }
 
     @PutMapping("/{proprietarioId}")
@@ -61,11 +60,5 @@ public class ProprietarioController {
 
         registroProprietarioService.excluir(proprietarioId);
         return ResponseEntity.noContent().build();
-    }
-
-    // faz a captura da exceção 400
-    @ExceptionHandler(NegocioException.class) // método para ser capaz de tratar exceção
-    public ResponseEntity<String> capturar(NegocioException e) {
-        return ResponseEntity.badRequest().body(e.getMessage()); // retorna um status 400, erro no consumidor e não servidor
     }
 }
