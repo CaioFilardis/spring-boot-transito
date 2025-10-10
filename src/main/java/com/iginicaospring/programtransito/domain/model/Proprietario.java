@@ -30,7 +30,7 @@ public class Proprietario {
 
     @NotBlank
     @Size(max = 255)
-    @Email // valida se é um e-mail mesmo
+    @Email
     private String email;
 
     @NotBlank
