@@ -2,6 +2,7 @@ package com.iginicaospring.programtransito.api.controller;
 
 import com.iginicaospring.programtransito.api.assembler.VeiculoAssembler;
 import com.iginicaospring.programtransito.api.model.VeiculoModel;
+import com.iginicaospring.programtransito.api.model.input.VeiculoInput;
 import com.iginicaospring.programtransito.domain.model.Veiculo;
 import com.iginicaospring.programtransito.domain.repository.VeiculoRepository;
 import com.iginicaospring.programtransito.domain.service.RegistroVeiculoService;
@@ -37,7 +38,11 @@ public class VeiculoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VeiculoModel cadastrar(@Valid @RequestBody Veiculo veiculo){
-        return veiculoAssembler.toModel(registroVeiculoService.cadastrar(veiculo));
+    public VeiculoModel cadastrar(@Valid @RequestBody VeiculoInput veiculoInput){
+        Veiculo novoVeiculo = veiculoAssembler.toEntity(veiculoInput); // pegamos o input
+        Veiculo veiculoCadastrado = registroVeiculoService.cadastrar(novoVeiculo); // cadastra o que recebe do input
+
+        return veiculoAssembler.toModel(veiculoCadastrado); // retorna esses dados a salvar no banco
+        //       return veiculoAssembler.toModel(registroVeiculoService.cadastrar(veiculo));
     }
 }
