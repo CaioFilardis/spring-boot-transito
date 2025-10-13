@@ -32,7 +32,7 @@ public class Veiculo {
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataApreensao;
 
-    @OneToMany(mappedBy = "veiculo") // indica associação bidirecional, inversa
+    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL) // indica associação bidirecional, inversa
     private List<Autuacao> autuacoes = new ArrayList<>();
 
     public Autuacao adicionarAutuacao(Autuacao autuacao) {
