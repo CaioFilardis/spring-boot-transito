@@ -1,5 +1,6 @@
 package com.iginicaospring.programtransito.api.exceptionhandller;
 
+import com.iginicaospring.programtransito.domain.exception.EntidadeNaoEncontradaException;
 import com.iginicaospring.programtransito.domain.exception.NegocioException;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
@@ -56,6 +57,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return problemDetail;
     }
+
+
+    @ExceptionHandler(EntidadeNaoEncontradaException.class)
+    public ProblemDetail handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND); // indica status de 'não encontrado'
+        problemDetail.setTitle(e.getMessage());
+        problemDetail.setType(URI.create("http://www.programtransito.com/erros/nao-encontrado"));
+
+        return problemDetail;
+    }
+
+
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ProblemDetail handleDataIntegrity(DataIntegrityViolationException e) {

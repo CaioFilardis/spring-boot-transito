@@ -1,5 +1,6 @@
 package com.iginicaospring.programtransito.domain.service;
 
+import com.iginicaospring.programtransito.domain.exception.EntidadeNaoEncontradaException;
 import com.iginicaospring.programtransito.domain.exception.NegocioException;
 import com.iginicaospring.programtransito.domain.model.Proprietario;
 import com.iginicaospring.programtransito.domain.model.StatusVeiculo;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class RegistroVeiculoService {
 
     public Veiculo buscar(Long veiculoId) {
         return veiculoRepository.findById(veiculoId)
-                .orElseThrow(() -> new NegocioException("Veículo não encontrado"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Veículo não encontrado"));
     }
 
 

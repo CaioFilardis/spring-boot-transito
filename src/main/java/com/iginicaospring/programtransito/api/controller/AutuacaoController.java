@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpRequest;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -28,7 +29,6 @@ public class AutuacaoController {
         Autuacao novaAutuacao = autuacaoAssembler.toEntity(autuacaoInput);
         Autuacao autuacaoRegistrada =  registroAutuacaoService
                 .registrar(veiculoId, novaAutuacao);
-
         return autuacaoAssembler.toModel(autuacaoRegistrada); // converte em uma nova instancia do representantionModel
     }
 }
