@@ -4,7 +4,9 @@ import com.iginicaospring.programtransito.api.assembler.AutuacaoAssembler;
 import com.iginicaospring.programtransito.api.model.AutuacaoModel;
 import com.iginicaospring.programtransito.api.model.input.AutuacaoInput;
 import com.iginicaospring.programtransito.domain.model.Autuacao;
+import com.iginicaospring.programtransito.domain.model.Veiculo;
 import com.iginicaospring.programtransito.domain.service.RegistroAutuacaoService;
+import com.iginicaospring.programtransito.domain.service.RegistroVeiculoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ public class AutuacaoController {
     // injetar
     private final RegistroAutuacaoService registroAutuacaoService;
     private final AutuacaoAssembler autuacaoAssembler;
+    private final RegistroVeiculoService registroVeiculoService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -30,5 +33,11 @@ public class AutuacaoController {
         Autuacao autuacaoRegistrada =  registroAutuacaoService
                 .registrar(veiculoId, novaAutuacao);
         return autuacaoAssembler.toModel(autuacaoRegistrada); // converte em uma nova instancia do representantionModel
+    }
+
+    @GetMapping
+    public List<AutuacaoModel> listar (@PathVariable Long veiculoId) {
+        Veiculo veiculo = registroVeiculoService.buscar(veiculoId);
+        return autuacaoAssembler.toCollectionModel(veiculo.getAutuacoes());
     }
 }

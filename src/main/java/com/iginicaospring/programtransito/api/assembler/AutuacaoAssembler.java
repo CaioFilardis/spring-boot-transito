@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,7 +23,7 @@ public class AutuacaoAssembler {
         return modelMapper.map(autuacao, AutuacaoModel.class);
     }
 
-    public List<AutuacaoModel> toListModel(List<Autuacao> autuacoes) {
+    public List<AutuacaoModel> toCollectionModel(List<Autuacao> autuacoes) {
         return autuacoes.stream()
                 .map(this::toModel)
                 .toList();
