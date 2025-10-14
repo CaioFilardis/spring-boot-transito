@@ -48,7 +48,7 @@ public class Veiculo {
         }
 
         setStatus(StatusVeiculo.APREENDIDO); // registro status como apreendido
-        setDataCadastro(OffsetDateTime.now()); // registra a data de apreensão
+        setDataApreensao(OffsetDateTime.now()); // registra a data de apreensão
     }
 
     public void removerApreensao() {
@@ -57,7 +57,7 @@ public class Veiculo {
         }
 
         setStatus(StatusVeiculo.REGULAR);
-        setDataCadastro(null);
+        setDataApreensao(null);
     }
 
     public boolean estaApreendido() {

@@ -5,6 +5,7 @@ import com.iginicaospring.programtransito.api.model.VeiculoModel;
 import com.iginicaospring.programtransito.api.model.input.VeiculoInput;
 import com.iginicaospring.programtransito.domain.model.Veiculo;
 import com.iginicaospring.programtransito.domain.repository.VeiculoRepository;
+import com.iginicaospring.programtransito.domain.service.ApreensaoVeiculosService;
 import com.iginicaospring.programtransito.domain.service.RegistroVeiculoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class VeiculoController {
 
     private final VeiculoRepository veiculoRepository;
     private final RegistroVeiculoService registroVeiculoService;
+    private final ApreensaoVeiculosService apreensaoVeiculosService;
     private final VeiculoAssembler veiculoAssembler;
 
     @GetMapping
@@ -43,6 +45,17 @@ public class VeiculoController {
         Veiculo veiculoCadastrado = registroVeiculoService.cadastrar(novoVeiculo); // cadastra o que recebe do input
 
         return veiculoAssembler.toModel(veiculoCadastrado); // retorna esses dados a salvar no banco
-        //       return veiculoAssembler.toModel(registroVeiculoService.cadastrar(veiculo));
+    }
+
+    @PutMapping("/{veiculoId}/apreensao")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void apreender(@PathVariable Long veiculoId) {
+        apreensaoVeiculosService.apreender(veiculoId);
+    }
+
+    @DeleteMapping("/{veiculoId}/apreensao") // muda apenas o verbo
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removerApreensao(@PathVariable Long veiculoId) {
+        apreensaoVeiculosService.removerApreensao(veiculoId);
     }
 }
