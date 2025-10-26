@@ -1,9 +1,12 @@
 package com.iginicaospring.programtransito.api.controller;
 
+import com.iginicaospring.programtransito.api.assembler.ProprietarioAssembler;
 import com.iginicaospring.programtransito.api.assembler.VeiculoAssembler;
 import com.iginicaospring.programtransito.api.model.VeiculoModel;
 import com.iginicaospring.programtransito.api.model.input.VeiculoInput;
+import com.iginicaospring.programtransito.domain.model.Proprietario;
 import com.iginicaospring.programtransito.domain.model.Veiculo;
+import com.iginicaospring.programtransito.domain.repository.ProprietarioRepository;
 import com.iginicaospring.programtransito.domain.repository.VeiculoRepository;
 import com.iginicaospring.programtransito.domain.service.ApreensaoVeiculosService;
 import com.iginicaospring.programtransito.domain.service.RegistroVeiculoService;
@@ -24,6 +27,7 @@ public class VeiculoController {
     private final RegistroVeiculoService registroVeiculoService;
     private final ApreensaoVeiculosService apreensaoVeiculosService;
     private final VeiculoAssembler veiculoAssembler;
+    private final ProprietarioAssembler proprietarioAssembler;
 
     @GetMapping
     public List<VeiculoModel> listar(){
@@ -31,7 +35,7 @@ public class VeiculoController {
     }
 
     @GetMapping("/{veiculoId}")
-    public ResponseEntity<VeiculoModel> buscar(@PathVariable Long veiculoId){ // retorna a instabcia do modelo de compilação
+    public ResponseEntity<VeiculoModel> buscar(@PathVariable Long veiculoId){
         return veiculoRepository.findById(veiculoId)
                 .map(veiculoAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -41,10 +45,31 @@ public class VeiculoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VeiculoModel cadastrar(@Valid @RequestBody VeiculoInput veiculoInput){
-        Veiculo novoVeiculo = veiculoAssembler.toEntity(veiculoInput); // pegamos o input
-        Veiculo veiculoCadastrado = registroVeiculoService.cadastrar(novoVeiculo); // cadastra o que recebe do input
+        Veiculo novoVeiculo = veiculoAssembler.toEntity(veiculoInput);
+        Veiculo veiculoCadastrado = registroVeiculoService.cadastrar(novoVeiculo);
 
-        return veiculoAssembler.toModel(veiculoCadastrado); // retorna esses dados a salvar no banco
+        return veiculoAssembler.toModel(veiculoCadastrado);
+    }
+
+    @PutMapping("/{veiculoId}")
+    public ResponseEntity<?> atualizar(@PathVariable Long veiculoId, @Valid @RequestBody VeiculoInput veiculoInput){
+        // 1. buscar veículo original
+        Veiculo veiculoExistente = veiculoRepository.findById(veiculoId).orElse(null);
+        if (veiculoExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+        // 2. atualizar campos editáveis
+        veiculoExistente.setMarca(veiculoInput.getMarca());
+        veiculoExistente.setModelo(veiculoInput.getModelo());
+        veiculoExistente.setPlaca(veiculoInput.getPlaca());
+
+        if (veiculoInput.getProprietario() != null) {
+            Proprietario proprietario = proprietarioAssembler.toEntity(veiculoInput.getProprietario());
+            veiculoExistente.setProprietario(proprietario);
+        }
+
+        Veiculo veiculoAtualizado = veiculoRepository.save(veiculoExistente);
+        return ResponseEntity.ok(veiculoAssembler.toModel(veiculoAtualizado));
     }
 
     @PutMapping("/{veiculoId}/apreensao")
@@ -53,7 +78,7 @@ public class VeiculoController {
         apreensaoVeiculosService.apreender(veiculoId);
     }
 
-    @DeleteMapping("/{veiculoId}/apreensao") // muda apenas o verbo
+    @DeleteMapping("/{veiculoId}/apreensao")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removerApreensao(@PathVariable Long veiculoId) {
         apreensaoVeiculosService.removerApreensao(veiculoId);
