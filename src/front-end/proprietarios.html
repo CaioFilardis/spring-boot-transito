@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Proprietários - ProgramTransito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">ProgramTransito</a>
+        <div class="navbar-nav">
+            <a class="nav-link active" href="proprietarios.html">Proprietários</a>
+            <a class="nav-link" href="veiculos.html">Veículos</a>
+            <a class="nav-link" href="autuacoes.html">Autuações</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Proprietários</h2>
+    <!-- Formulário para novo proprietário -->
+    <form id="form-proprietario" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome" required>
+        </div>
+        <div class="col-md-5">
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+        </div>
+    </form>
+
+    <!-- Tabela de proprietários -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody id="proprietarios-tbody">
+        <!-- Preenchido por JS -->
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/proprietarios.js"></script>
+</body>
+</html>
