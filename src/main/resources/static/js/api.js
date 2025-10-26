@@ -1,4 +1,4 @@
-/ Função showAlert pré-requisito (já fornecida)
+// Função showAlert pré-requisito (já fornecida)
 function showAlert(tipo, mensagem) {
     const cor = tipo === "success" ? "success"
         : tipo === "danger" ? "danger"
@@ -15,7 +15,7 @@ function showAlert(tipo, mensagem) {
 // API AJAX genérico — usando showAlert em erros:
 function apiGet(url, cb) {
     $.get(url, cb).fail(function(xhr) {
-        showAlert("danger", "Erro ao buscar dados!<br>" + (xhr.responseText || ''));
+        showAlert("danger", "Erro ao buscar dados!" + (xhr.responseText || ''));
     });
 }
 
@@ -27,7 +27,7 @@ function apiPost(url, data, cb) {
         data: JSON.stringify(data),
         success: cb,
         error: function(xhr) {
-            showAlert("danger", "Erro ao salvar!<br>" + (xhr.responseText || ''));
+            showAlert("danger", "Erro ao salvar!" + (xhr.responseText || ''));
         }
     });
 }
@@ -40,7 +40,7 @@ function apiPut(url, data, cb) {
         data: JSON.stringify(data),
         success: cb,
         error: function(xhr) {
-            showAlert("danger", "Erro ao atualizar!<br>" + (xhr.responseText || ''));
+            showAlert("danger", "Erro ao atualizar!" + (xhr.responseText || ''));
         }
     });
 }
@@ -51,7 +51,7 @@ function apiDelete(url, cb) {
         type: "DELETE",
         success: cb,
         error: function(xhr) {
-            showAlert("danger", "Erro ao deletar!<br>" + (xhr.responseText || ''));
+            showAlert("danger", "Erro ao deletar!" + (xhr.responseText || ''));
         }
     });
 }
