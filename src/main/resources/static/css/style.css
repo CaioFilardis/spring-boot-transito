@@ -1,0 +1,46 @@
+body {
+    background: #f8f9fa;
+}
+
+.navbar {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+h1, h2 {
+    font-weight: 600;
+    color: #205080;
+}
+
+.container {
+    max-width: 900px;
+    margin-top: 32px;
+}
+
+.table th, .table td {
+    vertical-align: middle !important;
+}
+
+.form-control, .form-select {
+    border-radius: .45rem;
+}
+
+.btn {
+    border-radius: .45rem;
+    font-size: 0.97rem;
+}
+
+#alertaApp {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    min-width: 320px;
+    max-width: 350px;
+}
+
+@media (max-width: 600px) {
+    .container { padding: 10px; }
+    .navbar-brand, .nav-link { font-size: 17px; }
+    .table { font-size: 13px; }
+}

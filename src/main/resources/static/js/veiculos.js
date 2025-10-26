@@ -92,4 +92,53 @@ $(function() {
 
         apiPut(`http://localhost:8081/veiculos/${id}`, editado, listarVeiculos);
     });
+
+
+    // alert
+    $("#form-veiculo").on("submit", function(e) {
+        e.preventDefault();
+        const marca = $("#marca").val().trim();
+        const modelo = $("#modelo").val().trim();
+        const placa = $("#placa").val().trim();
+        const proprietarioId = $("#proprietarioId").val();
+
+        if (!marca || !modelo || !placa || !proprietarioId) {
+            showAlert("warning", "Preencha todos os campos do veículo, inclusive proprietário!");
+            return;
+        }
+        // Placa: simples validação (exemplo: 3 letras + 4 números)
+        const placaOk = /^[A-Z]{3}\d{4}$/i.test(placa);
+        if (!placaOk) {
+            showAlert("danger", "Placa inválida. Use formato padrão (ABC1234).");
+            return;
+        }
+        const veiculo = {
+            marca,
+            modelo,
+            placa,
+            proprietario: { id: proprietarioId }
+        };
+        apiPost("http://localhost:8081/veiculos", veiculo, function() {
+            showAlert("success", "Veículo cadastrado com sucesso!");
+            listarVeiculos();
+            $("#form-veiculo")[0].reset();
+        });
+    });
+
+    let idExcluir = null;
+    $(document).on("click", ".btn-excluir", function() {
+        idExcluir = $(this).data("id");
+        $("#mensagemModal").text("Deseja realmente excluir este veículo?");
+        var modal = new bootstrap.Modal(document.getElementById('modalConfirma'));
+        modal.show();
+    });
+    $("#btnConfirma").on("click", function() {
+        apiDelete(`http://localhost:8081/veiculos/${idExcluir}`, function() {
+            showAlert("success", "Veículo excluído!");
+            listarVeiculos();
+        });
+        var modal = bootstrap.Modal.getInstance(document.getElementById('modalConfirma'));
+        modal.hide();
+    });
+
 });
