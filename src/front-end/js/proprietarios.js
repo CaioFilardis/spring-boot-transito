@@ -1,7 +1,6 @@
 $(function() {
-    // Listar todos os proprietários
     function listarProprietarios() {
-        $.get("http://localhost:8081/proprietarios", function(data) {
+        apiGet("http://localhost:8081/proprietarios", function(data) {
             let tbody = $("#proprietarios-tbody").empty();
             data.forEach(function(p) {
                 tbody.append(`
@@ -17,50 +16,35 @@ $(function() {
             });
         });
     }
+
     listarProprietarios();
 
-    // Adicionar proprietário
+    // Adicionar
     $("#form-proprietario").on("submit", function(e) {
         e.preventDefault();
         const novo = {
             nome: $("#nome").val(),
             email: $("#email").val()
         };
-        $.ajax({
-            url: "http://localhost:8081/proprietarios",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(novo),
-            success: function() {
-                listarProprietarios();
-                $("#form-proprietario")[0].reset();
-            }
+        apiPost("http://localhost:8081/proprietarios", novo, function() {
+            listarProprietarios();
+            $("#form-proprietario")[0].reset();
         });
     });
 
-    // Remover proprietário
+    // Remover
     $(document).on("click", ".btn-remover", function() {
         const id = $(this).data("id");
-        $.ajax({
-            url: "http://localhost:8081/proprietarios/" + id,
-            type: "DELETE",
-            success: listarProprietarios
-        });
+        apiDelete("http://localhost:8081/proprietarios/" + id, listarProprietarios);
     });
 
-    // Editar proprietário (simples - pode ser aprimorado com modal)
+    // Editar
     $(document).on("click", ".btn-editar", function() {
         const id = $(this).data("id");
         const nome = prompt("Novo nome:", $(this).data("nome"));
         const email = prompt("Novo email:", $(this).data("email"));
         if (nome && email) {
-            $.ajax({
-                url: "http://localhost:8081/proprietarios/" + id,
-                type: "PUT",
-                contentType: "application/json",
-                data: JSON.stringify({nome, email}),
-                success: listarProprietarios
-            });
+            apiPut("http://localhost:8081/proprietarios/" + id, {nome, email}, listarProprietarios);
         }
     });
 });
