@@ -45,8 +45,11 @@
 
     <!-- Formulário para nova autuação -->
     <form id="form-autuacao" class="row g-3 mb-4">
-        <div class="col-md-8">
+        <div class="col-md-4">
             <input type="text" id="detalhe" name="detalhe" class="form-control" placeholder="Descrição da infração" required>
+        </div>
+        <div class="col-md-4">
+            <input type="number" id="valorMulta" name="valorMulta" placeholder="Valor da multa" required>
         </div>
         <div class="col-md-4 d-grid">
             <button type="submit" class="btn btn-primary">Autuar veículo</button>

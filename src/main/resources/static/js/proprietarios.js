@@ -5,9 +5,9 @@ $(function() {
             data.forEach(function(p) {
                 tbody.append(`
           <tr>
-            <td>${p.nome}</td>
-            <td>${p.email}</td>
-            <td>${p.telefone}</td>
+            <td data-label="Nome">${p.nome}</td>
+            <td data-label="Email">${p.email}</td>
+            <td data-label="Telefone">${p.telefone}</td>
             <td>
               <button class="btn btn-sm btn-warning btn-editar" data-id="${p.id}" data-nome="${p.nome}" data-email="${p.email}" data-telefone="${p.telefone}">Editar</button>
               <button class="btn btn-sm btn-danger btn-remover" data-id="${p.id}">Remover</button>

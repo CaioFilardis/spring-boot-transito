@@ -30,22 +30,8 @@ $(function() {
     $("#form-autuacao").on("submit", function(e) {
         e.preventDefault();
         const veiculoId = $("#veiculoId").val();
-        const detalhe = $("#detalhe").val();
-        if (!veiculoId) {
-            alert("Selecione um veículo!");
-            return;
-        }
-        apiPost(`http://localhost:8081/veiculos/${veiculoId}/autuacoes`, { descricao: detalhe }, function() {
-            listarAutuacoes(veiculoId);
-            $("#detalhe").val("");
-        });
-    });
-
-    // alert
-    $("#form-autuacao").on("submit", function(e) {
-        e.preventDefault();
-        const veiculoId = $("#veiculoId").val();
         const detalhe = $("#detalhe").val().trim();
+        const valorMulta = $("#valorMulta").val().trim();
 
         if (!veiculoId) {
             showAlert("warning", "Selecione um veículo!");
@@ -55,12 +41,21 @@ $(function() {
             showAlert("warning", "Informe a descrição da infração!");
             return;
         }
+        if (!valorMulta || isNaN(valorMulta.replace(",", "."))) {
+            showAlert("warning", "Informe o valor da multa!");
+            return;
+        }
 
-        apiPost(`http://localhost:8081/veiculos/${veiculoId}/autuacoes`, { descricao: detalhe }, function() {
-            showAlert("success", "Autuação registrada!");
-            listarAutuacoes(veiculoId);
-            $("#detalhe").val("");
-        });
+        apiPost(
+            `http://localhost:8081/veiculos/${veiculoId}/autuacoes`,
+            { descricao: detalhe, valorMulta: parseFloat(valorMulta.replace(",", ".")) },
+            function() {
+                showAlert("success", "Autuação registrada!");
+                listarAutuacoes(veiculoId);
+                $("#detalhe").val("");
+                $("#valorMulta").val("");
+            }
+        );
     });
 
     let idExcluir = null;
@@ -94,6 +89,4 @@ $(function() {
         var modal = bootstrap.Modal.getInstance(document.getElementById('modalConfirma'));
         modal.hide();
     });
-
-
 });
