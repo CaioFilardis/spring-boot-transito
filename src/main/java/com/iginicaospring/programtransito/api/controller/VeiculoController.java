@@ -72,6 +72,16 @@ public class VeiculoController {
         return ResponseEntity.ok(veiculoAssembler.toModel(veiculoAtualizado));
     }
 
+    @DeleteMapping("/{veiculoId}")
+    public ResponseEntity<Void> excluir(@PathVariable Long veiculoId) {
+        if (!veiculoRepository.existsById(veiculoId)) {
+            return ResponseEntity.notFound().build();
+        }
+        veiculoRepository.deleteById(veiculoId);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @PutMapping("/{veiculoId}/apreensao")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void apreender(@PathVariable Long veiculoId) {

@@ -67,14 +67,6 @@ $(function() {
         apiDelete(`http://localhost:8081/veiculos/${id}/apreensao`, listarVeiculos);
     });
 
-    // Excluir veículo
-    $(document).on("click", ".btn-excluir", function() {
-        const id = $(this).data("id");
-        if (confirm("Tem certeza que deseja excluir este veículo?")) {
-            apiDelete(`http://localhost:8081/veiculos/${id}`, listarVeiculos);
-        }
-    });
-
     // Editar veículo
     $(document).on("click", ".btn-editar", function() {
         const id = $(this).data("id");
