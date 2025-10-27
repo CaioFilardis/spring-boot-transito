@@ -60,7 +60,19 @@ $(function() {
         apiDelete("http://localhost:8081/proprietarios/" + id, function() {
             showAlert("success", "Proprietário removido!");
             listarProprietarios();
-        });
+        },
+            function(xhr) {
+                // Aqui entra o alerta de integridade!
+                if (xhr.status === 409) {
+                    showAlert("danger", "Não é possível excluir: este proprietário possui veículos cadastrados.");
+                } else {
+                    showAlert("danger", "Erro ao remover proprietário.");
+                }
+            }
+            );
+
+
+
     });
 
 });

@@ -14,8 +14,8 @@ $(function() {
             data.forEach(function(a) {
                 tbody.append(`
           <tr>
-            <td>${a.descricao || a.detalhe || "Sem descrição"}</td>
-            <td>${a.dataOcorrencia ? new Date(a.dataOcorrencia).toLocaleString('pt-BR') : ""}</td>
+            <td data-label="descricao">${a.descricao || a.detalhe || "Sem descrição"}</td>
+            <td data-label="dataOcorrencia">${a.dataOcorrencia ? new Date(a.dataOcorrencia).toLocaleString('pt-BR') : ""}</td>
           </tr>
         `);
             });

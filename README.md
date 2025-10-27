@@ -12,6 +12,7 @@ Uma API REST robusta e bem arquitetada para gerenciamento de frota de veículos,
 ### 📖 Índice
 
 - [Sobre o Projeto](#-sobre-o-projeto)
+- [Exemplos de tela](#-exemplo-de-tela)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Funcionalidades](#-funcionalidades)
 - [Arquitetura Aplicada](#-arquitetura-aplicada)
@@ -21,6 +22,17 @@ Uma API REST robusta e bem arquitetada para gerenciamento de frota de veículos,
 - [Autor](#-autor)
 
 ---
+
+## 🖼️ Exemplos de Tela
+
+### Tela de Proprietários (Desktop)
+![Proprietários Mobile](src/img/Prop_Projeto.gif)
+
+### Tela de Veículos (Desktop)
+![Veículos Desktop](src/img/Vei_Projeto.gif)
+
+### Tela de Autuações (Desktop)
+![Veículos Desktop](src/img/Aut_Projeto.gif)
 
 ### 🎯 Sobre o Projeto
 
